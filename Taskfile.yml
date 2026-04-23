@@ -1,0 +1,36 @@
+version: '3'
+
+tasks:
+  default:
+    desc: List available commands
+    cmds:
+      - task --list
+
+  install:
+    desc: Install project packages
+    cmds:
+      - 'go mod tidy'
+      - 'go mod download'
+
+  test:
+    desc: Run tests on a specific go service
+    cmds:
+      - 'go test ./...'
+
+  test-cover:
+    desc: Run tests on a specific go service
+    cmds:
+      - 'go test -failfast -coverprofile=./coverage.out ./...'
+      - 'go tool cover -html="./coverage.out"'
+
+  lint:
+    desc: Run tests on a specific go service
+    cmds:
+      - 'golangci-lint run'
+
+  security:
+    desc: Run checks on a specific service
+    cmds:
+      - 'go vet'
+      - 'gosec ./...'
+      - 'govulncheck ./...'
