@@ -1,4 +1,4 @@
-# Oapi-codegen client
+# oapi-codegen client
 A Golang client wrapper for clients generated with [oapi-codegen](https://github.com/oapi-codegen/oapi-codegen/).
 
 # Description
@@ -7,7 +7,7 @@ This package wraps around the generated clients from [oapi-codegen](https://gith
 ## Usage
 `go get github.com/YourSurpriseCom/oapi-codegen-client`
 
-```go 
+```go
 baseURL := "https://cataas.com"
 upstreamTimeout := 5 * time.Second
 apmInstance := apm.NewApm()
