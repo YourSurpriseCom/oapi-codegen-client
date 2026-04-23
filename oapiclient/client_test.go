@@ -47,7 +47,7 @@ func successHTTPResponse() *http.Response {
 }
 
 func TestNew(t *testing.T) {
-	baseUrl := "https://cataas.com"
+	baseURL := "https://cataas.com"
 	upstreamTimeout := 5 * time.Second
 
 	tests := []struct {
@@ -93,7 +93,7 @@ func TestNew(t *testing.T) {
 			}
 
 			tt.options = append(tt.options, WithHTTPDoer(mockDoer))
-			client := New[cataas.Client, cataas.ClientWithResponses](baseUrl, upstreamTimeout, tt.options...)
+			client := New[cataas.Client, cataas.ClientWithResponses](baseURL, upstreamTimeout, tt.options...)
 
 			var _ cataas.ClientWithResponsesInterface = &client
 

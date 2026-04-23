@@ -7,6 +7,22 @@ This package wraps around the generated clients from [oapi-codegen](https://gith
 ## Usage
 `go get github.com/YourSurpriseCom/oapi-codegen-client`
 
+```go 
+baseURL := "https://cataas.com"
+upstreamTimeout := 5 * time.Second
+apmInstance := apm.NewApm()
+audience := "https://audience"
+
+// default client without extras
+client := oapiclient.New[cataas.Client, cataas.ClientWithResponses](baseURL, upstreamTimeout)
+
+// Client with Datadog instrumentation
+client := oapiclient.New[cataas.Client, cataas.ClientWithResponses](baseURL, upstreamTimeout, oapiclient.WithDatadogApm(&apmInstance))
+
+// Client with Google Cloud Platform authentication
+client := oapiclient.New[cataas.Client, cataas.ClientWithResponses](baseURL, upstreamTimeout, oapiclient.WithGcpOAuth(audience))
+```
+
 See [examples/example_test.go](examples/example_test.go) for a full usage example.
 
 ## Configuration
