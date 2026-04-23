@@ -82,7 +82,7 @@ func TestOauthMiddlewareWithFakeCredentials(t *testing.T) {
 
 		tokenServer := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, _ *http.Request) {
 			responseWriter.Header().Set("Content-Type", "application/json")
-			responseWriter.Write(tokenResponseJSON)
+			_, _ = responseWriter.Write(tokenResponseJSON)
 		}))
 		defer tokenServer.Close()
 
@@ -94,7 +94,6 @@ func TestOauthMiddlewareWithFakeCredentials(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, middleware)
 	})
-
 }
 
 func TestOauthMiddleware(t *testing.T) {

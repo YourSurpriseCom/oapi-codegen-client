@@ -13,23 +13,28 @@ tasks:
       - 'go mod download'
 
   test:
-    desc: Run tests on a specific go service
+    desc: Run tests
     cmds:
       - 'go test ./...'
 
   test-cover:
-    desc: Run tests on a specific go service
+    desc: Run tests and generate coverage
     cmds:
       - 'go test -failfast -coverprofile=./coverage.out ./...'
       - 'go tool cover -html="./coverage.out"'
 
   lint:
-    desc: Run tests on a specific go service
+    desc: Run linter
     cmds:
       - 'golangci-lint run'
 
+  lint-fix:
+    desc: Run fix fixable linter errors
+    cmds:
+      - 'golangci-lint run --fix'
+
   security:
-    desc: Run checks on a specific service
+    desc: Run security checks
     cmds:
       - 'go vet'
       - 'gosec ./...'

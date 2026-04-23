@@ -92,8 +92,8 @@ func TestNew(t *testing.T) {
 				mockDoer.EXPECT().Do(mock.Anything).Return(tt.mockResponse, nil)
 			}
 
-			options := append(tt.options, WithHttpDoer(mockDoer))
-			client := New[cataas.Client, cataas.ClientWithResponses](baseUrl, upstreamTimeout, options...)
+			tt.options = append(tt.options, WithHTTPDoer(mockDoer))
+			client := New[cataas.Client, cataas.ClientWithResponses](baseUrl, upstreamTimeout, tt.options...)
 
 			var _ cataas.ClientWithResponsesInterface = &client
 

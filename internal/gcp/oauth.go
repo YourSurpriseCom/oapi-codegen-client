@@ -2,6 +2,7 @@ package gcp
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -25,7 +26,7 @@ func WithTokenSource(ts oauth2.TokenSource) Option {
 
 func OauthMiddleware(audience string, options ...Option) (func(ctx context.Context, req *http.Request) error, error) {
 	if audience == "" {
-		return nil, fmt.Errorf("audience must not be empty")
+		return nil, errors.New("audience must not be empty")
 	}
 
 	cfg := &oauthMiddlewareConfig{}

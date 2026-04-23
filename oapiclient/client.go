@@ -19,37 +19,37 @@ func New[Client any, ClientWithResponses any](baseURL string, upstreamTimeout ti
 		httpClient = cfg.apm.ConfigureOnHttpClient(httpClient)
 	}
 
-	var doer HttpRequestDoer = httpClient
+	var doer HTTPRequestDoer = httpClient
 	if cfg.httpDoer != nil {
 		doer = cfg.httpDoer
 	}
 
 	var client Client
 
-	v := reflect.ValueOf(&client).Elem()
+	clientValue := reflect.ValueOf(&client).Elem()
 
-	if f := v.FieldByName("Server"); f.IsValid() && f.CanSet() {
-		f.SetString(baseURL)
+	if serverField := clientValue.FieldByName("Server"); serverField.IsValid() && serverField.CanSet() {
+		serverField.SetString(baseURL)
 	}
 
-	if f := v.FieldByName("Client"); f.IsValid() && f.CanSet() {
-		f.Set(reflect.ValueOf(doer))
+	if clientField := clientValue.FieldByName("Client"); clientField.IsValid() && clientField.CanSet() {
+		clientField.Set(reflect.ValueOf(doer))
 	}
 
 	if cfg.oauthMiddleware != nil {
-		if f := v.FieldByName("RequestEditors"); f.IsValid() && f.CanSet() {
-			slice := reflect.MakeSlice(f.Type(), 1, 1)
-			elemType := f.Type().Elem()
+		if editorsField := clientValue.FieldByName("RequestEditors"); editorsField.IsValid() && editorsField.CanSet() {
+			slice := reflect.MakeSlice(editorsField.Type(), 1, 1)
+			elemType := editorsField.Type().Elem()
 			slice.Index(0).Set(reflect.ValueOf(cfg.oauthMiddleware).Convert(elemType))
-			f.Set(slice)
+			editorsField.Set(slice)
 		}
 	}
 
-	var client2 ClientWithResponses
-	v2 := reflect.ValueOf(&client2).Elem()
-	if f2 := v2.FieldByName("ClientInterface"); f2.IsValid() && f2.CanSet() {
-		f2.Set(reflect.ValueOf(&client))
+	var clientWithResponses ClientWithResponses
+	clientWithResponsesValue := reflect.ValueOf(&clientWithResponses).Elem()
+	if clientInterfaceField := clientWithResponsesValue.FieldByName("ClientInterface"); clientInterfaceField.IsValid() && clientInterfaceField.CanSet() {
+		clientInterfaceField.Set(reflect.ValueOf(&client))
 	}
 
-	return client2
+	return clientWithResponses
 }

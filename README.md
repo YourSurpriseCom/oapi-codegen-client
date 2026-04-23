@@ -7,10 +7,10 @@ This package wraps around the generated clients from [oapi-codegen](https://gith
 ## Usage
 `go get github.com/YourSurpriseCom/oapi-codegen-client`
 
-See [examples/example.go](examples/example.go) for a full usage example.
+See [examples/example_test.go](examples/example_test.go) for a full usage example.
 
 ## Configuration
-This client support multiple configurations which can be used on top of the genereted client.
+This client support multiple configurations which can be used on top of the generated client.
 
 ### Datadog Support
 To enable the Datadog http tracer, use the option `WithDatadogApm()` which expects an instance of [go-datadog-apm](https://github.com/YourSurpriseCom/go-datadog-apm).
