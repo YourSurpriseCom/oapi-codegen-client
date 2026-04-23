@@ -13,14 +13,33 @@ upstreamTimeout := 5 * time.Second
 apmInstance := apm.NewApm()
 audience := "https://audience"
 
-// default client without extras
-client := oapiclient.New[cataas.Client, cataas.ClientWithResponses](baseURL, upstreamTimeout)
+// Default client without extras
+client := oapiclient.New[cataas.Client, cataas.ClientWithResponses](
+	baseURL, 
+	upstreamTimeout
+)
 
 // Client with Datadog instrumentation
-client := oapiclient.New[cataas.Client, cataas.ClientWithResponses](baseURL, upstreamTimeout, oapiclient.WithDatadogApm(&apmInstance))
+client := oapiclient.New[cataas.Client, cataas.ClientWithResponses](
+	baseURL, 
+	upstreamTimeout, 
+	oapiclient.WithDatadogApm(&apmInstance)
+)
 
 // Client with Google Cloud Platform authentication
-client := oapiclient.New[cataas.Client, cataas.ClientWithResponses](baseURL, upstreamTimeout, oapiclient.WithGcpOAuth(audience))
+client := oapiclient.New[cataas.Client, cataas.ClientWithResponses](
+	baseURL, 
+	upstreamTimeout, 
+	oapiclient.WithGcpOAuth(audience)
+)
+
+// Client with Both Datadog instrumentation and Google Cloud Platform authentication
+client := oapiclient.New[cataas.Client, cataas.ClientWithResponses](
+	baseURL, 
+	upstreamTimeout,
+	oapiclient.WithDatadogApm(&apmInstance),
+	oapiclient.WithGcpOAuth(audience)
+)
 ```
 
 See [examples/example_test.go](examples/example_test.go) for a full usage example.
