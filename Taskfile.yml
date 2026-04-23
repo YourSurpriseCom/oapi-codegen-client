@@ -34,3 +34,8 @@ tasks:
       - 'go vet'
       - 'gosec ./...'
       - 'govulncheck ./...'
+
+  generate-mocks:
+    desc: Generate mocks
+    cmds:
+      - 'go tool mockery'

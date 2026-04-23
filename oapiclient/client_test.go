@@ -3,13 +3,16 @@ package oapiclient
 import (
 	"context"
 	"errors"
-	"fmt"
+	"io"
 	"net/http"
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/YourSurpriseCom/go-datadog-apm/v2/apm"
+	mockcataas "github.com/YourSurpriseCom/oapi-codegen-client/_mocks/cataas"
 	"github.com/YourSurpriseCom/oapi-codegen-client/_test/cataas"
+	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )
 
@@ -25,6 +28,24 @@ func failingOauthMiddleware(_ string) ClientOption {
 	}
 }
 
+var defaultTestResponseSuccessURL = "https://example.com/cat"
+var defaultTestResponseSuccess = cataas.CatRandomTextResponse{
+	HTTPResponse: &http.Response{
+		StatusCode: http.StatusOK,
+	},
+	JSON200: &cataas.Cat{
+		Url: &defaultTestResponseSuccessURL,
+	},
+}
+
+func successHTTPResponse() *http.Response {
+	return &http.Response{
+		StatusCode: http.StatusOK,
+		Body:       io.NopCloser(strings.NewReader(`{"url":"https://example.com/cat"}`)),
+		Header:     http.Header{"Content-Type": []string{"application/json"}},
+	}
+}
+
 func TestNew(t *testing.T) {
 	baseUrl := "https://cataas.com"
 	upstreamTimeout := 5 * time.Second
@@ -34,16 +55,19 @@ func TestNew(t *testing.T) {
 		options       []ClientOption
 		expectedError string
 		expectedCode  int
+		mockResponse  *http.Response
 	}{
 		{
 			name:         "no middleware",
 			options:      nil,
 			expectedCode: http.StatusOK,
+			mockResponse: successHTTPResponse(),
 		},
 		{
 			name:         "noop oauth middleware",
 			options:      []ClientOption{noopOauthMiddleware("test-audience")},
 			expectedCode: http.StatusOK,
+			mockResponse: successHTTPResponse(),
 		},
 		{
 			name:          "failing oauth middleware",
@@ -57,14 +81,20 @@ func TestNew(t *testing.T) {
 				return WithDatadogApm(&a)
 			}()},
 			expectedCode: http.StatusOK,
+			mockResponse: successHTTPResponse(),
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			client := New[cataas.Client, cataas.ClientWithResponses](baseUrl, upstreamTimeout, tt.options...)
+			mockDoer := mockcataas.NewMockHttpRequestDoer(t)
+			if tt.mockResponse != nil {
+				mockDoer.EXPECT().Do(mock.Anything).Return(tt.mockResponse, nil)
+			}
 
-			// apply the interface to validate the client
+			options := append(tt.options, WithHttpDoer(mockDoer))
+			client := New[cataas.Client, cataas.ClientWithResponses](baseUrl, upstreamTimeout, options...)
+
 			var _ cataas.ClientWithResponsesInterface = &client
 
 			response, err := client.CatRandomTextWithResponse(context.Background(), "test", &cataas.CatRandomTextParams{})
@@ -76,13 +106,12 @@ func TestNew(t *testing.T) {
 
 			require.NoError(t, err)
 			require.Equal(t, tt.expectedCode, response.StatusCode())
-
-			fmt.Printf("%+v\n", response.JSON200)
+			require.Equal(t, defaultTestResponseSuccess.JSON200, response.JSON200)
 		})
 	}
 }
 
-func TestWithGcpOAuth_PanicsOnEmptyAudience(t *testing.T) {
+func TestWithGcpOAuthPanicsOnEmptyAudience(t *testing.T) {
 	require.Panics(t, func() {
 		WithGcpOAuth("")
 	})

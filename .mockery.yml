@@ -1,0 +1,8 @@
+dir: "_mocks"
+filename: "{{.SrcPackageName}}/Mock{{.InterfaceName}}.go"
+template: testify
+all: true
+recursive: true
+include-auto-generated: true
+packages:
+  github.com/YourSurpriseCom/oapi-codegen-client/_test/cataas:

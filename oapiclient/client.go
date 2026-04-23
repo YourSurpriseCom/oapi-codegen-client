@@ -19,6 +19,11 @@ func New[Client any, ClientWithResponses any](baseURL string, upstreamTimeout ti
 		httpClient = cfg.apm.ConfigureOnHttpClient(httpClient)
 	}
 
+	var doer HttpRequestDoer = httpClient
+	if cfg.httpDoer != nil {
+		doer = cfg.httpDoer
+	}
+
 	var client Client
 
 	v := reflect.ValueOf(&client).Elem()
@@ -28,7 +33,7 @@ func New[Client any, ClientWithResponses any](baseURL string, upstreamTimeout ti
 	}
 
 	if f := v.FieldByName("Client"); f.IsValid() && f.CanSet() {
-		f.Set(reflect.ValueOf(httpClient))
+		f.Set(reflect.ValueOf(doer))
 	}
 
 	if cfg.oauthMiddleware != nil {
