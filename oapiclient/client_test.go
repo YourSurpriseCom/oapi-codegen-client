@@ -64,7 +64,7 @@ func TestNew(t *testing.T) {
 			mockResponse: successHTTPResponse(),
 		},
 		{
-			name:         "noop oauth middleware",
+			name:         "successful oauth middleware",
 			options:      []ClientOption{noopOauthMiddleware("test-audience")},
 			expectedCode: http.StatusOK,
 			mockResponse: successHTTPResponse(),

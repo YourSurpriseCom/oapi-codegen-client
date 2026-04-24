@@ -28,28 +28,37 @@ func New[Client any, ClientWithResponses any](baseURL string, upstreamTimeout ti
 
 	clientValue := reflect.ValueOf(&client).Elem()
 
-	if serverField := clientValue.FieldByName("Server"); serverField.IsValid() && serverField.CanSet() {
-		serverField.SetString(baseURL)
+	serverField := clientValue.FieldByName("Server")
+	if !serverField.IsValid() || !serverField.CanSet() {
+		panic("Client must have a Server field containing the baseURL from the external service")
 	}
+	serverField.SetString(baseURL)
 
-	if clientField := clientValue.FieldByName("Client"); clientField.IsValid() && clientField.CanSet() {
-		clientField.Set(reflect.ValueOf(doer))
+	clientField := clientValue.FieldByName("Client")
+	if !clientField.IsValid() || !clientField.CanSet() {
+		panic("Client must have a Client field supporting a httpClient")
 	}
+	clientField.Set(reflect.ValueOf(doer))
 
 	if cfg.oauthMiddleware != nil {
-		if editorsField := clientValue.FieldByName("RequestEditors"); editorsField.IsValid() && editorsField.CanSet() {
-			slice := reflect.MakeSlice(editorsField.Type(), 1, 1)
-			elemType := editorsField.Type().Elem()
-			slice.Index(0).Set(reflect.ValueOf(cfg.oauthMiddleware).Convert(elemType))
-			editorsField.Set(slice)
+		editorsField := clientValue.FieldByName("RequestEditors")
+		if !editorsField.IsValid() || !editorsField.CanSet() {
+			panic("Client must have a RequestEditors field supporting a RequestEditor callback function")
 		}
+
+		slice := reflect.MakeSlice(editorsField.Type(), 1, 1)
+		elemType := editorsField.Type().Elem()
+		slice.Index(0).Set(reflect.ValueOf(cfg.oauthMiddleware).Convert(elemType))
+		editorsField.Set(slice)
 	}
 
 	var clientWithResponses ClientWithResponses
 	clientWithResponsesValue := reflect.ValueOf(&clientWithResponses).Elem()
-	if clientInterfaceField := clientWithResponsesValue.FieldByName("ClientInterface"); clientInterfaceField.IsValid() && clientInterfaceField.CanSet() {
-		clientInterfaceField.Set(reflect.ValueOf(&client))
+	clientInterfaceField := clientWithResponsesValue.FieldByName("ClientInterface")
+	if !clientInterfaceField.IsValid() || !clientInterfaceField.CanSet() {
+		panic("ClientWithResponses must have a ClientInterface field supporting a Client interface")
 	}
+	clientInterfaceField.Set(reflect.ValueOf(&client))
 
 	return clientWithResponses
 }
