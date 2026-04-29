@@ -33,6 +33,11 @@ tasks:
     cmds:
       - 'golangci-lint run --fix'
 
+  lint-verify-config:
+    desc: Verify linter config
+    cmds:
+      - 'golangci-lint config verify'
+
   security:
     desc: Run security checks
     cmds:

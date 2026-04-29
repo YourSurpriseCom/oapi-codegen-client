@@ -31,11 +31,6 @@ formatters:
 
   # All settings can be found here https://github.com/golangci/golangci-lint/blob/HEAD/.golangci.reference.yml
   settings:
-    goimports:
-    # set this value to your application module name as set in mod.go
-    #local-prefixes:
-    #  - file-service
-
     golines:
       # Target maximum line length.
       # Default: 100
