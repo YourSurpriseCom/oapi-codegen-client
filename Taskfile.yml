@@ -1,0 +1,46 @@
+version: '3'
+
+tasks:
+  default:
+    desc: List available commands
+    cmds:
+      - task --list
+
+  install:
+    desc: Install project packages
+    cmds:
+      - 'go mod tidy'
+      - 'go mod download'
+
+  test:
+    desc: Run tests
+    cmds:
+      - 'go test ./...'
+
+  test-cover:
+    desc: Run tests and generate coverage
+    cmds:
+      - 'go test -failfast -coverprofile=./coverage.out ./...'
+      - 'go tool cover -html="./coverage.out"'
+
+  lint:
+    desc: Run linter
+    cmds:
+      - 'golangci-lint run'
+
+  lint-fix:
+    desc: Run fix fixable linter errors
+    cmds:
+      - 'golangci-lint run --fix'
+
+  security:
+    desc: Run security checks
+    cmds:
+      - 'go vet'
+      - 'gosec ./...'
+      - 'govulncheck ./...'
+
+  generate-mocks:
+    desc: Generate mocks
+    cmds:
+      - 'go tool mockery'
