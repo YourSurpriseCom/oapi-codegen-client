@@ -12,8 +12,10 @@ import (
 	"github.com/YourSurpriseCom/go-datadog-apm/v2/apm"
 	mockcataas "github.com/YourSurpriseCom/oapi-codegen-client/_mocks/cataas"
 	"github.com/YourSurpriseCom/oapi-codegen-client/_test/cataas"
+	"github.com/YourSurpriseCom/oapi-codegen-client/internal/gcp"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/oauth2"
 )
 
 func noopOauthMiddleware(_ string) ClientOption {
@@ -115,4 +117,38 @@ func TestWithGcpOAuthPanicsOnEmptyAudience(t *testing.T) {
 	require.Panics(t, func() {
 		WithGcpOAuth("")
 	})
+}
+
+func TestOauthMiddlewareSetsAuthorizationHeaderOnOutgoingRequest(t *testing.T) {
+	middleware, err := gcp.OauthMiddleware(
+		"https://example.com",
+		gcp.WithTokenSource(oauth2.StaticTokenSource(&oauth2.Token{AccessToken: "stub-access-token"})),
+	)
+	require.NoError(t, err)
+
+	withStubOauthMiddleware := func(config *clientConfig) {
+		config.oauthMiddleware = middleware
+	}
+
+	mockDoer := mockcataas.NewMockHttpRequestDoer(t)
+	var capturedRequest *http.Request
+	mockDoer.EXPECT().
+		Do(mock.MatchedBy(func(request *http.Request) bool {
+			capturedRequest = request
+			return true
+		})).
+		Return(successHTTPResponse(), nil)
+
+	client := New[cataas.Client, cataas.ClientWithResponses](
+		"https://cataas.com",
+		5*time.Second,
+		withStubOauthMiddleware,
+		WithHTTPDoer(mockDoer),
+	)
+
+	_, err = client.CatRandomTextWithResponse(context.Background(), "test", &cataas.CatRandomTextParams{})
+	require.NoError(t, err)
+
+	require.NotNil(t, capturedRequest)
+	require.Equal(t, "Bearer stub-access-token", capturedRequest.Header.Get("Authorization"))
 }
