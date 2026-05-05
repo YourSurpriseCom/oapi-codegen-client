@@ -52,7 +52,7 @@ See [examples/example_test.go](examples/example_test.go) for a full usage exampl
 This client support multiple configurations which can be used on top of the generated client.
 
 ### Datadog Support
-To enable the Datadog http tracer, use the option `WithDatadogApm()` which expects an instance of [go-datadog-apm](https://github.com/YourSurpriseCom/oapi-codegen-client).
+To enable the Datadog http tracer, use the option `WithDatadogApm()` which expects an instance of [go-datadog-apm](https://github.com/YourSurpriseCom/go-datadog-apm).
 
 ### Google Cloud Platform OAuth support
 To enable the Google Cloud Platform Oauth, use the option `WithGcpOAuth()` which expects the audience as a param.
