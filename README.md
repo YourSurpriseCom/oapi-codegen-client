@@ -1,4 +1,8 @@
 # oapi-codegen client
+[![Go Report Card](https://goreportcard.com/badge/github.com/YourSurpriseCom/oapi-codegen-client)](https://goreportcard.com/report/github.com/YourSurpriseCom/oapi-codegen-client)
+![workflow ci](https://github.com/YourSurpriseCom/oapi-codegen-client/actions/workflows/ci.yml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A Golang client wrapper for clients generated with [oapi-codegen](https://github.com/oapi-codegen/oapi-codegen/).
 
 # Description
@@ -48,7 +52,7 @@ See [examples/example_test.go](examples/example_test.go) for a full usage exampl
 This client support multiple configurations which can be used on top of the generated client.
 
 ### Datadog Support
-To enable the Datadog http tracer, use the option `WithDatadogApm()` which expects an instance of [go-datadog-apm](https://github.com/YourSurpriseCom/go-datadog-apm).
+To enable the Datadog http tracer, use the option `WithDatadogApm()` which expects an instance of [go-datadog-apm](https://github.com/YourSurpriseCom/oapi-codegen-client).
 
 ### Google Cloud Platform OAuth support
 To enable the Google Cloud Platform Oauth, use the option `WithGcpOAuth()` which expects the audience as a param.
