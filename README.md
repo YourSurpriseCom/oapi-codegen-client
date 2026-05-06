@@ -1,4 +1,8 @@
 # oapi-codegen client
+[![Go Report Card](https://goreportcard.com/badge/github.com/YourSurpriseCom/oapi-codegen-client)](https://goreportcard.com/report/github.com/YourSurpriseCom/oapi-codegen-client)
+![workflow ci](https://github.com/YourSurpriseCom/oapi-codegen-client/actions/workflows/ci.yml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A Golang client wrapper for clients generated with [oapi-codegen](https://github.com/oapi-codegen/oapi-codegen/).
 
 # Description
