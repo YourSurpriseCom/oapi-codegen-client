@@ -41,7 +41,7 @@ tasks:
   security:
     desc: Run security checks
     cmds:
-      - 'go vet'
+      - 'go vet ./...'
       - 'gosec ./...'
       - 'govulncheck ./...'
 
