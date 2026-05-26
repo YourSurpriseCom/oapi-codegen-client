@@ -3,7 +3,7 @@ module github.com/YourSurpriseCom/oapi-codegen-client
 go 1.25.0
 
 require (
-	github.com/YourSurpriseCom/go-datadog-apm/v2 v2.4.3
+	github.com/YourSurpriseCom/go-datadog-apm/v2 v2.4.4
 	github.com/oapi-codegen/runtime v1.4.1
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/oauth2 v0.36.0
@@ -30,13 +30,13 @@ require (
 	github.com/DataDog/datadog-agent/pkg/util/scrubber v0.77.0 // indirect
 	github.com/DataDog/datadog-agent/pkg/version v0.77.0 // indirect
 	github.com/DataDog/datadog-go/v5 v5.8.3 // indirect
-	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.8.1 // indirect
-	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.8.1 // indirect
-	github.com/DataDog/dd-trace-go/contrib/google.golang.org/api/v2 v2.8.1 // indirect
-	github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2 v2.8.1 // indirect
-	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.8.1 // indirect
-	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.8.1 // indirect
-	github.com/DataDog/dd-trace-go/v2 v2.8.1 // indirect
+	github.com/DataDog/dd-trace-go/contrib/database/sql/v2 v2.8.2 // indirect
+	github.com/DataDog/dd-trace-go/contrib/go-chi/chi.v5/v2 v2.8.2 // indirect
+	github.com/DataDog/dd-trace-go/contrib/google.golang.org/api/v2 v2.8.2 // indirect
+	github.com/DataDog/dd-trace-go/contrib/gorm.io/gorm.v1/v2 v2.8.2 // indirect
+	github.com/DataDog/dd-trace-go/contrib/jmoiron/sqlx/v2 v2.8.2 // indirect
+	github.com/DataDog/dd-trace-go/contrib/net/http/v2 v2.8.2 // indirect
+	github.com/DataDog/dd-trace-go/v2 v2.8.2 // indirect
 	github.com/DataDog/go-libddwaf/v4 v4.9.0 // indirect
 	github.com/DataDog/go-runtime-metrics-internal v0.0.4-0.20260217080614-b0f4edc38a6d // indirect
 	github.com/DataDog/go-sqllexer v0.1.13 // indirect
@@ -55,7 +55,7 @@ require (
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
-	github.com/go-chi/chi/v5 v5.2.5 // indirect
+	github.com/go-chi/chi/v5 v5.3.0 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
@@ -132,9 +132,9 @@ require (
 	golang.org/x/crypto v0.51.0 // indirect
 	golang.org/x/exp v0.0.0-20260212183809-81e46e3db34a // indirect
 	golang.org/x/mod v0.35.0 // indirect
-	golang.org/x/net v0.54.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.44.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/term v0.43.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
