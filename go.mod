@@ -1,12 +1,12 @@
 module github.com/YourSurpriseCom/oapi-codegen-client
 
-go 1.26.0
+go 1.25.8
 
 require (
 	github.com/YourSurpriseCom/go-datadog-apm/v2 v2.4.10
 	github.com/oapi-codegen/runtime v1.7.0
 	github.com/stretchr/testify v1.12.1
-	golang.org/x/oauth2 v0.37.0
+	golang.org/x/oauth2 v0.36.0
 	google.golang.org/api v0.298.0
 )
 
