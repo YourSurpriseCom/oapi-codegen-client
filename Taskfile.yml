@@ -9,7 +9,7 @@ tasks:
   install:
     desc: Install project packages
     cmds:
-      - 'go mod tidy'
+      - 'go mod tidy -go=1.25.8'
       - 'go mod download'
 
   test:

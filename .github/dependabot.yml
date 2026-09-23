@@ -6,6 +6,10 @@ updates:
     schedule:
       interval: weekly
       day: sunday
+    cooldown:
+      default-days: 3
+      exclude:
+        - "github.com/YourSurpriseCom/*"
     groups:
       minor-patch-updates:
         update-types:
